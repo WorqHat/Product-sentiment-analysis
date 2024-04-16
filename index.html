@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./public/style.css">
+    <title>Product Sentiment Analysis</title>
+    <style>
+        /* CSS for styling */
+        .heading {
+            font-weight: bold;
+        }
+        .positive {
+            color: green;
+        }
+        .negative {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="col-lg-6 col-0 mx-auto py-5 my-5">
+        <div class="card p-4">
+            <h1>Product Sentiment Analysis</h1>
+            <form id="form" action="/" method="post">
+                <input type="text" id="input" class="form-control" name="userInput" placeholder="Enter your question or product page URL">
+                <p id="result" class="mt-2">Analyzing review...</p>
+                <input type="submit" class="btn btn-primary" value="Search">
+            </form>
+        </div>
+    </div>
+    <script>
+        const formElement = document.getElementById('form');
+        const inputElement = document.getElementById('input');
+        const resultElement = document.getElementById('result');
+        
+        formElement.addEventListener('submit', event => {
+            event.preventDefault();
+        
+            const userInput = inputElement.value;
+        
+            const requestOptions = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    userInput: userInput
+                })
+            };
+
+            fetch('/', requestOptions)
+           .then(response => response.json())
+           .then(data => {
+            console.log("This is data ", data); // Handle response from server
+
+             // Clear previous result
+             resultElement.innerHTML = "";
+
+        // Check if data is an array or a single object
+        if (Array.isArray(data)) {
+            // Handle array of data objects
+            data.forEach(item => {
+                formatAndDisplayContent(item);
+            });
+        } else {
+            // Handle single data object
+            formatAndDisplayContent(data);
+        }
+    })
+    .catch(error => console.error('Error:', error));
+
+function formatAndDisplayContent(data) {
+    // Extract content from data
+    const content = data.content;
+    // const json=JSON.parse(content); 
+    // Split content into parts
+    console.log(content);
+    const parts = content.split("\n");
+
+    // Handle first section separately
+    const firstSectionLines = parts.shift().split('\n');
+    let formattedContent = '<p>';
+    firstSectionLines.forEach(line => {
+        if (line.includes("Positive") || line.includes("positive")) {
+            formattedContent += `<span class="positive">${line}</span><br>`;
+        } else if (line.includes("Negative") || line.includes("negative")) {
+            formattedContent += `<span class="negative">${line}</span><br>`;
+        } else {
+            formattedContent += `${line}<br>`;
+        }
+    });
+    formattedContent += '</p>';
+
+    // Handle remaining sections
+    parts.forEach(part => {
+        const lines = part.split('\n');
+        const header = lines.shift();
+        formattedContent += `<p><strong>${header}</strong><br>`;
+        lines.forEach(line => {
+            if (line.startsWith('- ')) {
+                formattedContent += `${line}<br>`;
+            }
+        });
+        formattedContent += '</p>';
+    });
+
+    resultElement.innerHTML += formattedContent;
+}
+        });
+    </script>        
+</body>
+</html>

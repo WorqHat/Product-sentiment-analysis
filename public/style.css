@@ -1,0 +1,58 @@
+body {
+    /* background-color: rgb(213, 239, 247); //Set the background color to light blue */
+    background: linear-gradient(45deg, #9bcff2, #e0aaf5,#e9f5b0);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align items to the top of the container */
+    height: 100vh;
+}
+
+.card {
+    background-color: #f9f9f9; /* Set the initial background color of the form box */
+    width: 500px; /* Set a fixed width for the form box */
+    min-height: 450px; /* Set a minimum height for the form box */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Add shadow to the form box */
+    text-align: center;
+    display: flex;
+    flex-direction: column; /* Arrange child elements in a column layout */
+    justify-content: flex-start; /* Align child elements to the top of the container */
+}
+
+input[type="text"] {
+    width: calc(100% - 40px); /* Adjust input width to fit inside the form box with padding */
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: Arial, sans-serif; /* Change font to Arial or any other preferred font */
+}
+
+#result,
+#result2,
+#result3 {
+    font-size: 1.0em;
+    margin-top: 20px;
+    text-align: left; /* Align text to the left */
+    font-family: Arial, sans-serif; /* Apply the same font as the input */
+    flex-grow: 1; /* Allow the result element to grow to fill available space */
+}
+
+.btn {
+    padding: 15px 0; /* Adjust padding to increase button height */
+    width: calc(30% - 40px); /* Adjust button width to fit inside the form box with padding */
+    border-radius: 20px;
+    font-size: 1.0em; /* Increase font size for better visibility */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    align-self: center; /* Align button to the center horizontally */
+}
+
+/* Search button style */
+.btn-primary {
+    background-image: linear-gradient(to right, #6c9ae4 0%, #44a6d3 51%, #7aa3e4 100%);
+    /* background: linear-gradient(to right, #1777b8, #1c7297,#66c1e7); Blue gradient background */
+    border: none;
+    color: black;
+}
